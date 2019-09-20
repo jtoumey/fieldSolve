@@ -5,7 +5,8 @@
 
 // Enum for creation method
 
-template <typename T> class Field
+template <typename T> 
+class Field
 {
 private:
     std::vector<T> field_quantity;
@@ -16,6 +17,7 @@ public:
     // ctor
     // dtor
     // cctor
+    void 
 
 
 };
