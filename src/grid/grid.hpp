@@ -1,5 +1,5 @@
-#ifndef GRID_H
-#define GRID_H
+#ifndef GRID_HPP
+#define GRID_HPP
 
 class Grid
 {
@@ -21,4 +21,4 @@ public:
 
 };
 
-#endif // GRID_H
+#endif // GRID_HPP

@@ -1,4 +1,4 @@
-#include "grid/grid.h"
+#include "grid/grid.hpp"
 
 #include <iostream>
 #include <mpi.h>
