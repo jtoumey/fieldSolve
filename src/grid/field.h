@@ -5,7 +5,7 @@
 
 // Enum for creation method
 
-template <typename T> 
+template <typename T>
 class Field
 {
 private:
@@ -17,7 +17,9 @@ public:
     // ctor
     // dtor
     // cctor
-    void 
+    void
+    // methods: initialize field_quantity
+
 
 
 };
