@@ -1,3 +1,7 @@
 # Binary Executables
 *.out
 *.o
+
+
+# macOS Files
+*.DS_Store
