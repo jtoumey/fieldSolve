@@ -2,6 +2,8 @@
 *.out
 *.o
 
+# Compiled Headers
+*.gch
 
 # macOS Files
 *.DS_Store
