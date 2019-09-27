@@ -29,13 +29,24 @@ void Grid::decomposeDomain()
     /* Say we cannot divide tasks equally: we have at most three extra tasks,
        which we assign to the final proc
      */
-    if (num_elements % world_size != 0)
+    int leftover_tasks = num_elements % world_size;
+    if (leftover_tasks != 0)
     {
-        if (world_rank == (world_size - 1))
+        if (world_rank < leftover_tasks)
         {
-            std::cout << "Assigning" << num_elements%world_size << "extra tasks for proc"
-                      << world_rank << std::endl;
-            end_pt = end_pt + (num_elements % world_size);
+            std::cout << "Assigning rank " << world_rank << " one extra task." << std::endl;
+
+            start_pt += world_rank
+            end_pt += world_rank*1
+            if (world_rank == 0)
+            {
+                end_pt += 1;
+            }
+            else
+            {
+                start_pt += 1;
+                end_pt += 2;
+            }
         }
     }
 
@@ -52,7 +63,7 @@ void Grid::decomposeDomain()
     {
         std::cout << "Rank " << world_rank << " computing pt " << ii << std::endl;
         xc[ii] = ii*dx + dx/2;
-        std::cout << xc[ii] << std::endl;
+        //std::cout << xc[ii] << std::endl;
     }
 
 
