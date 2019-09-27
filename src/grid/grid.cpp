@@ -14,13 +14,11 @@ void Grid::discretize()
 
 void Grid::decomposeDomain()
 {
-    // Collect our information here as needed
+    // Collect our world information here as needed
     int world_size;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
-
-
 
     int points_per_proc = num_elements/world_size;
     int start_pt = world_rank*points_per_proc;
@@ -30,23 +28,18 @@ void Grid::decomposeDomain()
        which we assign to the final proc
      */
     int leftover_tasks = num_elements % world_size;
+
     if (leftover_tasks != 0)
     {
-        if (world_rank < leftover_tasks)
+        if (world_rank < (leftover_tasks))
         {
-            std::cout << "Assigning rank " << world_rank << " one extra task." << std::endl;
-
-            start_pt += world_rank
-            end_pt += world_rank*1
-            if (world_rank == 0)
-            {
-                end_pt += 1;
-            }
-            else
-            {
-                start_pt += 1;
-                end_pt += 2;
-            }
+            start_pt = world_rank*(points_per_proc + 1);
+            end_pt = (world_rank + 1)*points_per_proc + world_rank + 1;
+        }
+        else
+        {
+            start_pt = world_rank*(points_per_proc + 1);
+            end_pt = start_pt + (points_per_proc);
         }
     }
 
