@@ -20,7 +20,7 @@ int main(void)
 
 
 
-    int nx = 32;
+    int nx = 31;
     int dim = 1;
     double xmin = 0.;
     double xmax = 1.;

@@ -20,10 +20,7 @@ void Grid::decomposeDomain()
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    if (num_elements % world_size != 0)
-    {
 
-    }
 
     int points_per_proc = num_elements/world_size;
     int start_pt = world_rank*points_per_proc;
@@ -32,9 +29,14 @@ void Grid::decomposeDomain()
     /* Say we cannot divide tasks equally: we have at most three extra tasks,
        which we assign to the final proc
      */
-    if (world_rank == (world_size - 1))
+    if (num_elements % world_size != 0)
     {
-        end_pt = end_pt + (num_elements % world_size);
+        if (world_rank == (world_size - 1))
+        {
+            std::cout << "Assigning" << num_elements%world_size << "extra tasks for proc"
+                      << world_rank << std::endl;
+            end_pt = end_pt + (num_elements % world_size);
+        }
     }
 
     std::cout << "Np: " << num_elements << std::endl;
