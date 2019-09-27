@@ -9,6 +9,8 @@ private:
     double xmin, xmax;
 
 
+
+
 public:
     Grid(int dim_, int num_elem_, double xmin_, double xmax_) :
          dimension(dim_),

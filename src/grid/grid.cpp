@@ -14,11 +14,45 @@ void Grid::discretize()
 
 void Grid::decomposeDomain()
 {
-    // Find out rank, size
-    int world_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    // Collect our information here as needed
     int world_size;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    if (num_elements % world_size != 0)
+    {
+
+    }
+
+    int points_per_proc = num_elements/world_size;
+    int start_pt = world_rank*points_per_proc;
+    int end_pt = (world_rank + 1)*points_per_proc;
+
+    /* Say we cannot divide tasks equally: we have at most three extra tasks,
+       which we assign to the final proc
+     */
+    if (world_rank == (world_size - 1))
+    {
+        end_pt = end_pt + (num_elements % world_size);
+    }
+
+    std::cout << "Np: " << num_elements << std::endl;
+    std::cout << "Num procs: " << world_size << ", on rank: " << world_rank << std::endl;
+    std::cout << "Np per proc:" << points_per_proc << std::endl;
+    std::cout << "  Start pt:" << start_pt << ", end pt: " << (end_pt - 1) << std::endl;
+
+    double* xc;
+    xc = new double[num_elements];
+    double dx = (xmax - xmin)/num_elements;
+
+    for (int ii = start_pt; ii < end_pt; ++ii)
+    {
+        std::cout << "Rank " << world_rank << " computing pt " << ii << std::endl;
+        xc[ii] = ii*dx + dx/2;
+        std::cout << xc[ii] << std::endl;
+    }
+
 
     int number;
     if (world_rank == 0) {

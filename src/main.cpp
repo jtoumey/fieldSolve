@@ -17,12 +17,10 @@ int main(void)
     int name_len;
     MPI_Get_processor_name(processor_name, &name_len);
 
-    // Print off a hello world message
-    std::cout << "Hello world from processor " << processor_name
-              << ", rank " << world_rank << " out of " << world_size <<"processors" << std::endl;
 
 
-    int nx = 10;
+
+    int nx = 32;
     int dim = 1;
     double xmin = 0.;
     double xmax = 1.;
