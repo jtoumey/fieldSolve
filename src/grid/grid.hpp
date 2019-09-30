@@ -1,14 +1,14 @@
 #ifndef GRID_HPP
 #define GRID_HPP
 
+#include "field.hpp"
+
 class Grid
 {
 private:
     int dimension;
     int num_elements;
     double xmin, xmax;
-
-
 
 
 public:
@@ -20,6 +20,7 @@ public:
 
     void discretize();
     void decomposeDomain();
+    // Field registerField();
 
 };
 
