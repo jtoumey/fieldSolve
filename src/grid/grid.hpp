@@ -18,6 +18,7 @@ public:
          xmin(xmin_),
          xmax(xmax_) {} ;
 
+    void initializeField(int, T uniform_value);
     void discretize();
     void decomposeDomain();
     // Field registerField();
