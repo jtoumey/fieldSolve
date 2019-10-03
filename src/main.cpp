@@ -1,35 +1,35 @@
-#include "grid/grid.hpp"
-
 #include <iostream>
-#include <mpi.h>
+#include <vector>
+
+#include "grid/field.hpp"
 
 int main(void)
 {
-    MPI_Init(NULL, NULL);
 
-    int world_size;
-    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-    int world_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    int num_elements = 11;
+    double initial_pressure = 101325;
+    double u0 = 1.5;
 
-    // Get the name of the processor
-    char processor_name[MPI_MAX_PROCESSOR_NAME];
-    int name_len;
-    MPI_Get_processor_name(processor_name, &name_len);
+    Field<double> pressure(num_elements, initial_pressure);
+    Field<double> velocity(num_elements, u0);
 
+    // SIMPLE
+    double u_0;
+    double t, dt;
+    t = 0;
+    dt = 1e-4;
 
+    for (int ii = 0; ii < num_elements; ++ii)
+    {
+        double u_n = velocity.getFieldValue(ii);
 
-
-    int nx = 19;
-    int dim = 1;
-    double xmin = 0.;
-    double xmax = 1.;
-    // Call custom library function
-    Grid cond1d(dim, nx, xmin, xmax);
-
-    cond1d.decomposeDomain();
+        // u_0 = u_n + dt*(-u_);
 
 
-    MPI_Finalize();
-    return (0);
+    }
+
+
+
+
+    return 0;
 }

@@ -3,15 +3,25 @@
 
 #include <vector>
 
-
+template <typename T>
 class Field
 {
 private:
     std::vector<double> field_quantity;
 
 public:
-    Field(int, double);
-    double getFieldValue(int);
+
+    Field<T>(int size, T uniform_value)
+    {
+        field_quantity.assign(size, uniform_value);
+    }
+
+    double getFieldValue(int element_num)
+    {
+        double field_value = field_quantity[element_num];
+
+        return(field_value);
+    }
 
 
 };
