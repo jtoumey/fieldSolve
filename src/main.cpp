@@ -6,30 +6,23 @@
 int main(void)
 {
 
-    int num_elements = 11;
-    double initial_pressure = 101325;
-    double u0 = 1.5;
+    /*-- SIMPLE brute force code --*/
+    // GRID
+    const int npx = 8;
+    const int npy = 8;
+    double xmax = 1.0;
+	double ymax = 1.0;
 
-    Field<double> pressure(num_elements, initial_pressure);
-    Field<double> velocity(num_elements, u0);
+    // INITIAL FIELDS
+    double init_pres = 101325;
+    double init_dens = 1.0;
+    double init_velocity = 1.5;
 
-    // SIMPLE
-    double u_0;
-    double t, dt;
-    t = 0;
-    dt = 1e-4;
+    // TODO: The enum is not necessary here
+    Field<double> pressure(TWO_D, npx, npy, init_pres);
+    Field<double> velocity(TWO_D, npx, npy, init_velocity);
 
-    for (int ii = 0; ii < num_elements; ++ii)
-    {
-        double u_n = velocity.getFieldValue(ii);
-
-        // u_0 = u_n + dt*(-u_);
-
-
-    }
-
-
-
+    
 
     return 0;
 }
