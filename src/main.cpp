@@ -16,13 +16,42 @@ int main(void)
     // INITIAL FIELDS
     double init_pres = 101325;
     double init_dens = 1.0;
-    double init_velocity = 1.5;
+    double init_velocity_u = 1.5;
+    double init_velocity_v = 2.0;
 
     // TODO: The enum is not necessary here
-    Field<double> pressure(TWO_D, npx, npy, init_pres);
-    Field<double> velocity(TWO_D, npx, npy, init_velocity);
+    Field<double> pressure(npx, npy, init_pres);
+    Field<double> vel_u(npx, npy, init_velocity_u);
+    Field<double> vel_v(npx, npy, init_velocity_v);
 
-    
+    Field<double> density(npx, npy, init_dens);
+
+
+    // OUTER LOOP--SIMPLE PRESSURE-VELOCITY COUPLING (STEADY-STATE)
+
+    // Loop over interior cells--momentum equation
+    // _e.g._, calcMomentumFlux()
+
+    for (int ii = 1; ii < (npx - 1); ++ii)
+    {
+        for (int jj = 1; jj < (npy - 1); ++jj)
+        {
+            // Obviously no improvemnt. Instead, this should be abstracted within some class accessing all fields
+            double u_P = vel_u.getFieldValue(ii, jj);
+            double v_P = vel_v.getFieldValue(ii, jj);
+
+            double u_W = vel_u.getFieldValue(ii - 1, jj);
+            double u_E = vel_u.getFieldValue(ii + 1, jj);
+            double v_S = vel_v.getFieldValue(ii, jj - 1);
+            double v_N = vel_v.getFieldValue(ii, jj + 1);
+
+            // Interpolate cell face flux via central difference
+            double F_w = 0.5*(u_W + u_P)*density.getFieldValue(ii, jj);
+            double F_e = 0.5*(u_P + u_E)*density.getFieldValue(ii, jj);
+            double F_s = 0.5*(v_P + v_S)*density.getFieldValue(ii, jj);
+            double F_n = 0.5*(v_P + v_N)*density.getFieldValue(ii, jj);
+        }
+    }
 
     return 0;
 }

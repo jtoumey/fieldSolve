@@ -20,16 +20,16 @@ private:
 
 public:
 
-    Field<T>(Dimension domain_dim_, int size, T uniform_value)
+    Field<T>(int size, T uniform_value)
     {
-        domain_dimension = domain_dim_;
+        domain_dimension = ONE_D;
         dimension.push_back(size);
         field_quantity.assign(size, uniform_value);
 
     }
-    Field<T>(Dimension domain_dim_, int row, int col, T uniform_value)
+    Field<T>(int row, int col, T uniform_value)
     {
-        domain_dimension = domain_dim_;
+        domain_dimension = TWO_D;
         dimension.push_back(row);
         dimension.push_back(col);
         field_quantity.assign(row*col, uniform_value);

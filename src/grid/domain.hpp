@@ -3,7 +3,11 @@
 
 class Domain
 {
-
+public:
+    calcMomentumFlux()
+    {
+        // for 
+    }
 
 
 };
