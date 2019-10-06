@@ -38,45 +38,26 @@ public:
         calcNumElements();
     }
 
-    /* Overload the subscript operator */
-    T operator() (int i, int j)
+    /* Overload the function call operator */
+    T operator() (int x_idx, int y_idx)
     {
-        int element_num = (i)*dimension[0] + j;
-        // TODO: Compute num_elements for field in the constructor
-        if (element_num >= num_elements || element_num < 0)
+        int global_idx = (x_idx)*dimension[0] + y_idx;
+        if (global_idx >= num_elements || global_idx < 0)
         {
             std::cout << "ERROR: Accessing invalid element in field." << std::endl;
             exit(0);
         }
-        return (field_quantity[element_num]);
-    }
-
-    /* One-dimensional case */
-    double getFieldValue(int element_num)
-    {
-        double field_value = field_quantity[element_num];
-        return(field_value);
-    }
-    /* Function overload for two-dimensional case */
-    double getFieldValue(int row, int col)
-    {
-        int element_num = (row)*dimension[0] + col;
-
-        double field_value = field_quantity[element_num];
-        return(field_value);
+        return (field_quantity[global_idx]);
     }
 
     void calcNumElements()
     {
         num_elements = 1;
-
         for (int ii = 0; ii < dimension.size(); ++ii)
         {
             num_elements = num_elements*dimension[ii];
         }
     }
-
-
 };
 
 #endif // FIELD_HPP

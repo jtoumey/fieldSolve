@@ -35,23 +35,22 @@ int main(void)
     {
         for (int jj = 1; jj < (npy - 1); ++jj)
         {
-            // Obviously no improvemnt. Instead, this should be abstracted within some class accessing all fields
             double u_P = vel_u(ii, jj);
-            std::cout << u_P << std::endl;
-            double v_P = vel_v.getFieldValue(ii, jj);
+            double v_P = vel_v(ii, jj);
 
-            double u_W = vel_u.getFieldValue(ii - 1, jj);
-            double u_E = vel_u.getFieldValue(ii + 1, jj);
-            double v_S = vel_v.getFieldValue(ii, jj - 1);
-            double v_N = vel_v.getFieldValue(ii, jj + 1);
+            double u_W = vel_u(ii - 1, jj);
+            double u_E = vel_u(ii + 1, jj);
+            double v_S = vel_v(ii, jj - 1);
+            double v_N = vel_v(ii, jj + 1);
 
             // Interpolate cell face flux via central difference
-            double F_w = 0.5*(u_W + u_P)*density.getFieldValue(ii, jj);
-            double F_e = 0.5*(u_P + u_E)*density.getFieldValue(ii, jj);
-            double F_s = 0.5*(v_P + v_S)*density.getFieldValue(ii, jj);
-            double F_n = 0.5*(v_P + v_N)*density.getFieldValue(ii, jj);
+            double F_w = 0.5*(u_W + u_P)*density(ii, jj);
+            double F_e = 0.5*(u_P + u_E)*density(ii, jj);
+            double F_s = 0.5*(v_P + v_S)*density(ii, jj);
+            double F_n = 0.5*(v_P + v_N)*density(ii, jj);
         }
     }
 
+    std::cout << vel_u(-1, 4);
     return 0;
 }
