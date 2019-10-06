@@ -19,7 +19,6 @@ int main(void)
     double init_velocity_u = 1.5;
     double init_velocity_v = 2.0;
 
-    // TODO: The enum is not necessary here
     Field<double> pressure(npx, npy, init_pres);
     Field<double> vel_u(npx, npy, init_velocity_u);
     Field<double> vel_v(npx, npy, init_velocity_v);
@@ -37,7 +36,8 @@ int main(void)
         for (int jj = 1; jj < (npy - 1); ++jj)
         {
             // Obviously no improvemnt. Instead, this should be abstracted within some class accessing all fields
-            double u_P = vel_u.getFieldValue(ii, jj);
+            double u_P = vel_u(ii, jj);
+            std::cout << u_P << std::endl;
             double v_P = vel_v.getFieldValue(ii, jj);
 
             double u_W = vel_u.getFieldValue(ii - 1, jj);
