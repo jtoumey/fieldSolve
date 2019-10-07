@@ -25,6 +25,11 @@ int main(void)
 
     Field<double> density(npx, npy, init_dens);
 
+    Field<double> temp(30, 294);
+
+    double testtt = temp(7);
+    std::cout << "one-d temp " << testtt <<std::endl;
+    double test = temp(24, 0);
 
     // OUTER LOOP--SIMPLE PRESSURE-VELOCITY COUPLING (STEADY-STATE)
 
@@ -51,6 +56,5 @@ int main(void)
         }
     }
 
-    std::cout << vel_u(-1, 4);
     return 0;
 }
