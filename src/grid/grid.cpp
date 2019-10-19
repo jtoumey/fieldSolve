@@ -4,12 +4,29 @@
 
 #include <iostream>
 
-void Grid::discretize()
+void Grid::discretizeDomain()
 {
-    for (int ii = 0; ii < num_elements; ++ii)
-    {
+    calculateVertices();
+}
 
+void Grid::calculateVertices()
+{
+    double xc = 0.0;
+    double yc = 0.0;
+
+    for (int ii = 0; ii < (num_elements[0] + 1); ++ii)
+    {
+        for (int jj = 0; jj < (num_elements[1] + 1); ++jj)
+        {
+            vertices.push_back(vc);
+
+            yc += geometry_params.dy;
+        }
+        xc += geometry_params.dx;
+        yc = 0.0;
     }
+}
+
 }
 
 void Grid::decomposeDomain()
@@ -50,7 +67,7 @@ void Grid::decomposeDomain()
 
     double* xc;
     xc = new double[num_elements];
-    double dx = (xmax - xmin)/num_elements;
+    double dx = (domain_extent[1] - domain_extent[0])/num_elements;
 
     for (int ii = start_pt; ii < end_pt; ++ii)
     {
