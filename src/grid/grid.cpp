@@ -1,11 +1,13 @@
 #include "grid.hpp"
 
 #include <mpi.h>
-
 #include <iostream>
 
 void Grid::discretizeDomain()
 {
+    double dx = (domain_extent[1] - domain_extent[0])/num_elements[0];
+    double dy = (domain_extent[3] - domain_extent[2])/num_elements[1];
+    element_size.push_back(dx);
     calculateVertices();
 }
 
@@ -18,16 +20,14 @@ void Grid::calculateVertices()
     {
         for (int jj = 0; jj < (num_elements[1] + 1); ++jj)
         {
-            vertices.push_back(vc);
-
-            yc += geometry_params.dy;
+            vertex_coords.addVertex(xc, yc);
+            yc += element_size[1];
         }
-        xc += geometry_params.dx;
+        xc += element_size[0];
         yc = 0.0;
     }
 }
 
-}
 
 void Grid::decomposeDomain()
 {
@@ -37,14 +37,14 @@ void Grid::decomposeDomain()
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    int points_per_proc = num_elements/world_size;
+    int points_per_proc = num_elements[0]/world_size;
     int start_pt = world_rank*points_per_proc;
     int end_pt = (world_rank + 1)*points_per_proc;
 
     /* Say we cannot divide tasks equally: we have at most three extra tasks,
        which we assign to the final proc
      */
-    int leftover_tasks = num_elements % world_size;
+    int leftover_tasks = num_elements[0] % world_size;
 
     if (leftover_tasks != 0)
     {
@@ -60,14 +60,14 @@ void Grid::decomposeDomain()
         }
     }
 
-    std::cout << "Np: " << num_elements << std::endl;
+    // std::cout << "Np: " << num_elements << std::endl;
     std::cout << "Num procs: " << world_size << ", on rank: " << world_rank << std::endl;
     std::cout << "Np per proc:" << points_per_proc << std::endl;
     std::cout << "  Start pt:" << start_pt << ", end pt: " << (end_pt - 1) << std::endl;
 
     double* xc;
-    xc = new double[num_elements];
-    double dx = (domain_extent[1] - domain_extent[0])/num_elements;
+    xc = new double[num_elements[0]];
+    double dx = (domain_extent[1] - domain_extent[0])/num_elements[0];
 
     for (int ii = start_pt; ii < end_pt; ++ii)
     {
@@ -88,8 +88,3 @@ void Grid::decomposeDomain()
     }
 
 }
-
-// Field Grid::registerField();
-// {
-//
-// }

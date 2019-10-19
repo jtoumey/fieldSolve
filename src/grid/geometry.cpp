@@ -7,15 +7,16 @@
 
 void Geometry::calculateVertices()
 {
-    double xc = 0.0; 
+    // Local coordinates 
+    double xc = 0.0;
     double yc = 0.0;
-    
+
     for (int ii = 0; ii < (geometry_params.nx + 1); ++ii)
     {
         for (int jj = 0; jj < (geometry_params.ny + 1); ++jj)
         {
             Node vc;
-            vc.x = xc; 
+            vc.x = xc;
             vc.y = yc;
 
             vertices.push_back(vc);
@@ -104,14 +105,14 @@ UniqueEdgeStatus Geometry::findUniqueFaceNeighbors(int current_cell_index, int e
     {
         int neighbor_cell_index = vertices[edge_start_vert].neighbors[jj];
 
-        
+
         if (neighbor_cell_index == -1)
         {
             // Some vertices don't have neighbors in particular quadrants, so we skip these
         }
         else
         {
-            // Loop over vertices of this shared cell 
+            // Loop over vertices of this shared cell
             for (int nn = 0; nn < 4; ++nn)
             {
                 // If this shared cell also possesses the edge end vertex and is NOT the cell of interest itself, then the current face
@@ -179,7 +180,7 @@ void Geometry::writeEdgeList()
         edge_list_output << "Edge #: " << ii << "; Vertices: (" << edge_list[ii].start_vertex << ", " << edge_list[ii].end_vertex << ")" << std::endl;
     }
     edge_list_output.close();
-} 
+}
 
 void Geometry::determineCellEdgeAssociation()
 {
@@ -197,7 +198,7 @@ void Geometry::determineCellEdgeAssociation()
             {
                 // Find an edge with the same start and end vertices (test both orderings)
                 if ((current_edge.start_vertex == edge_list[edge_id].start_vertex && current_edge.end_vertex == edge_list[edge_id].end_vertex) || (current_edge.start_vertex == edge_list[edge_id].end_vertex && current_edge.end_vertex == edge_list[edge_id].start_vertex))
-                {   
+                {
                     cell_centers[cell_id].edge_neighbors[face_dir] = edge_id;
                 }
             }
