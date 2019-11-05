@@ -6,9 +6,6 @@
 
 int main(int argc, char* arg[])
 {
-
-
-    /*-- SIMPLE brute force code --*/
     // Here, we take the geometry explicitly
 
     const int npx = 4;
@@ -20,6 +17,7 @@ int main(int argc, char* arg[])
     GeometryParameters box_geometry_parameters(xmax, ymax, npx, npy);
     Geometry box_geometry(box_geometry_parameters);
 
+    
 
     double t0, t1, t_i, dt;
     t0 = 0.0;
