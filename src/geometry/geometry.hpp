@@ -3,14 +3,14 @@
 
 #include <vector>
 
-struct Parameters
+struct GeometryParameters
 {
     double x, y;
     int nx, ny, np;
     double dx, dy;
     int num_verts;
 
-    Parameters(double x_, double y_, int nx_, int ny_) :
+    GeometryParameters(double x_, double y_, int nx_, int ny_) :
         x(x_), y(y_), nx(nx_), ny(ny_) {}
 };
 
@@ -37,18 +37,27 @@ struct UniqueEdgeStatus
 class Geometry
 {
 private:
-    Parameters geometry_params;
+    GeometryParameters geometry_params;
 
     std::vector<Node> vertices;
     std::vector<Node> cell_centers;
     std::vector<Edge> edge_list;
 
 public:
-    Geometry(Parameters inputs_) : geometry_params(inputs_) {};
 
+    /*  */
+    Geometry(GeometryParameters inputs_) : geometry_params(inputs_)
+    {
+
+    }
+
+    /* TODO: This could all be packaged into one task */
+    /* Methods for grid calculation */
     void calculateVertices();
     void calculateCellCenters();
     void calculateConnectivity();
+
+    /* Methods for edge list generation */
     void generateEdgeList();
     UniqueEdgeStatus findUniqueFaceNeighbors(int, int, int);
     void determineCellEdgeAssociation();

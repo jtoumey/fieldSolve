@@ -184,22 +184,27 @@ void Geometry::writeEdgeList()
 
 void Geometry::determineCellEdgeAssociation()
 {
-    for (size_t cell_id = 0; cell_id < geometry_params.np; ++cell_id)
+    // Loop over all cells
+    for (int cell_id = 0; cell_id < geometry_params.np; ++cell_id)
     {
-
-        for (size_t face_dir = 0; face_dir < 4; ++face_dir)
+        // Loop over each face
+        for (int face_dir = 0; face_dir < 4; ++face_dir)
         {
+            // Build a temporary edge using the linked vertices
             Edge current_edge;
             current_edge.start_vertex = cell_centers[cell_id].neighbors[face_dir];
             current_edge.end_vertex = cell_centers[cell_id].neighbors[(face_dir+1)%4];
             size_t num_edges = edge_list.size();
 
-            for (size_t edge_id = 0; edge_id < num_edges; ++edge_id)
+            // Now loop over all edges in the edgeList
+            for (int edge_id = 0; edge_id < num_edges; ++edge_id)
             {
                 // Find an edge with the same start and end vertices (test both orderings)
                 if ((current_edge.start_vertex == edge_list[edge_id].start_vertex && current_edge.end_vertex == edge_list[edge_id].end_vertex) || (current_edge.start_vertex == edge_list[edge_id].end_vertex && current_edge.end_vertex == edge_list[edge_id].start_vertex))
                 {
+                    // If we have a match, store this neighboring edge to the cell record
                     cell_centers[cell_id].edge_neighbors[face_dir] = edge_id;
+                    std::cout << "Matched edge " << edge_id << " with cell " << cell_id << ", face dir " << face_dir << std::endl;
                 }
             }
 
@@ -207,11 +212,11 @@ void Geometry::determineCellEdgeAssociation()
     }
 
     size_t num_edges = edge_list.size();
-    for (size_t edge_id = 0; edge_id < num_edges; ++edge_id)
+    for (int edge_id = 0; edge_id < num_edges; ++edge_id)
     {
-        for (size_t cell_id = 0; cell_id < geometry_params.np; ++cell_id)
+        for (int cell_id = 0; cell_id < geometry_params.np; ++cell_id)
         {
-            for (size_t face_dir = 0; face_dir < 4; ++face_dir)
+            for (int face_dir = 0; face_dir < 4; ++face_dir)
             {
                 if (cell_centers[cell_id].edge_neighbors[face_dir] == edge_id)
                 {
