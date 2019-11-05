@@ -21,6 +21,7 @@ void Grid::calculateVertices()
         for (int jj = 0; jj < (num_elements[1] + 1); ++jj)
         {
             vertex_coords.addVertex(xc, yc);
+            
             yc += element_size[1];
         }
         xc += element_size[0];

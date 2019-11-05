@@ -1,4 +1,4 @@
-#include "geometry.h"
+#include "geometry.hpp"
 
 #include <cmath>
 #include <fstream>
@@ -7,7 +7,7 @@
 
 void Geometry::calculateVertices()
 {
-    // Local coordinates 
+    // Local coordinates
     double xc = 0.0;
     double yc = 0.0;
 
