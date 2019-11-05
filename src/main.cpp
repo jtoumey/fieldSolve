@@ -18,26 +18,31 @@ int main(int argc, char* arg[])
 
     /* Step 1: Initialize a simulation geometry */
     GeometryParameters box_geometry_parameters(xmax, ymax, npx, npy);
-
-    /* Hide these, they are carryover from my old connectivity library */
-    box_geometry_parameters.np = box_geometry_parameters.nx*box_geometry_parameters.ny;
-    box_geometry_parameters.num_verts = (box_geometry_parameters.nx + 1)*(box_geometry_parameters.ny + 1);
-    box_geometry_parameters.dx = box_geometry_parameters.x/(float)(box_geometry_parameters.nx);
-    box_geometry_parameters.dy = box_geometry_parameters.y/(float)(box_geometry_parameters.ny);
-
     Geometry box_geometry(box_geometry_parameters);
 
-    box_geometry.calculateVertices();
-    box_geometry.calculateCellCenters();
-    box_geometry.calculateConnectivity();
 
-    box_geometry.generateEdgeList();
-    box_geometry.writeEdgeList();
-    box_geometry.determineCellEdgeAssociation();
+    double t0, t1, t_i, dt;
+    t0 = 0.0;
+    t1 = 1.0;
+    dt = 1e-6;
 
+    int t_n = 0;
+    for (t_i = t0; t_i < t1; t_i += dt)
+    {
+        ++t_n;
+        //std::cout << "Time-step number: " << t_n << " Simulation time: " << t_i << " Time-step size: " << dt << std::endl;
+        //simpleAlgorithm.doTimeStep(dt);
+        /*
+        void Simple::doTimeStep(double dt)
+        {
 
-    double dx = xmax/npx;
-    double dy = xmax/npy;
+        }
+
+        //simpleAlgorithm stores previous solution
+
+        */
+
+    }
 
 
 

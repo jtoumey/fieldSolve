@@ -6,9 +6,7 @@
 struct GeometryParameters
 {
     double x, y;
-    int nx, ny, np;
-    double dx, dy;
-    int num_verts;
+    int nx, ny;
 
     GeometryParameters(double x_, double y_, int nx_, int ny_) :
         x(x_), y(y_), nx(nx_), ny(ny_) {}
@@ -37,7 +35,20 @@ struct UniqueEdgeStatus
 class Geometry
 {
 private:
+    /* The parameters struct for initialization */
     GeometryParameters geometry_params;
+
+    /* Generic geometry information */
+    int num_points;
+    // TODO: Remove hard-coded value
+    double x_min = 0.0;
+    double y_min = 0.0;
+    double x_max, y_max;
+
+    int num_points_x, num_points_y;
+    int num_verts;
+
+    double dx, dy;
 
     std::vector<Node> vertices;
     std::vector<Node> cell_centers;
@@ -48,7 +59,26 @@ public:
     /*  */
     Geometry(GeometryParameters inputs_) : geometry_params(inputs_)
     {
+        /* Initialize the geometry by computing all salient parameters */
+        x_max = geometry_params.x;
+        y_max = geometry_params.y;
 
+        num_points_x = geometry_params.nx;
+        num_points_y = geometry_params.ny;
+
+        num_points = geometry_params.nx*geometry_params.ny;
+        num_verts = (geometry_params.nx + 1)*(geometry_params.ny + 1);
+
+        dx = geometry_params.x/(float)(geometry_params.nx);
+        dy = geometry_params.y/(float)(geometry_params.ny);
+
+        calculateVertices();
+        calculateCellCenters();
+        calculateConnectivity();
+
+        generateEdgeList();
+        writeEdgeList();
+        determineCellEdgeAssociation();
     }
 
     /* TODO: This could all be packaged into one task */

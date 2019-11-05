@@ -11,9 +11,9 @@ void Geometry::calculateVertices()
     double xc = 0.0;
     double yc = 0.0;
 
-    for (int ii = 0; ii < (geometry_params.nx + 1); ++ii)
+    for (int ii = 0; ii < (num_points_x + 1); ++ii)
     {
-        for (int jj = 0; jj < (geometry_params.ny + 1); ++jj)
+        for (int jj = 0; jj < (num_points_y + 1); ++jj)
         {
             Node vc;
             vc.x = xc;
@@ -21,21 +21,21 @@ void Geometry::calculateVertices()
 
             vertices.push_back(vc);
 
-            yc += geometry_params.dy;
+            yc += dy;
         }
-        xc += geometry_params.dx;
+        xc += dx;
         yc = 0.0;
     }
 }
 
 void Geometry::calculateCellCenters()
 {
-    double xc = 0.0 + geometry_params.dx/2.0;
-    double yc = 0.0 + geometry_params.dy/2.0;
+    double xc = 0.0 + dx/2.0;
+    double yc = 0.0 + dy/2.0;
 
-    for (int ii = 0; ii < geometry_params.nx; ++ii)
+    for (int ii = 0; ii < num_points_x; ++ii)
     {
-        for (int jj = 0; jj < geometry_params.ny; ++jj)
+        for (int jj = 0; jj < num_points_y; ++jj)
         {
             Node cel;
 
@@ -44,10 +44,10 @@ void Geometry::calculateCellCenters()
 
             cell_centers.push_back(cel);
 
-            yc += geometry_params.dy;
+            yc += dy;
         }
-        xc += geometry_params.dx;
-        yc = 0.0 + geometry_params.dy/2.0;
+        xc += dx;
+        yc = 0.0 + dy/2.0;
     }
 }
 
@@ -55,35 +55,35 @@ void Geometry::calculateConnectivity()
 {
     double eps = 1e-8;
 
-    for (int ii = 0; ii < geometry_params.np; ++ii)
+    for (int ii = 0; ii < num_points; ++ii)
     {
         Node cc = cell_centers[ii];
 
-        for (int jj = 0; jj < geometry_params.num_verts; ++jj)
+        for (int jj = 0; jj < num_verts; ++jj)
         {
             Node vc = vertices[jj];
 
-            if (std::fabs((cc.x - geometry_params.dx/2.0) - vc.x) < eps)
+            if (std::fabs((cc.x - dx/2.0) - vc.x) < eps)
             {
-                if (std::fabs((cc.y - geometry_params.dy/2.0) - vc.y) < eps)
+                if (std::fabs((cc.y - dy/2.0) - vc.y) < eps)
                 {
                     cell_centers[ii].neighbors[0] = jj;
                     vertices[jj].neighbors[1] = ii;
                 }
-                else if (std::fabs((cc.y + geometry_params.dy/2.0) - vc.y) < eps)
+                else if (std::fabs((cc.y + dy/2.0) - vc.y) < eps)
                 {
                     cell_centers[ii].neighbors[3] = jj;
                     vertices[jj].neighbors[0] = ii;
                 }
             }
-            else if (std::fabs((cc.x + geometry_params.dx/2.0) - vc.x) < eps)
+            else if (std::fabs((cc.x + dx/2.0) - vc.x) < eps)
             {
-                if (std::fabs((cc.y - geometry_params.dy/2.0) - vc.y) < eps)
+                if (std::fabs((cc.y - dy/2.0) - vc.y) < eps)
                 {
                     cell_centers[ii].neighbors[1] = jj;
                     vertices[jj].neighbors[2] = ii;
                 }
-                else if (std::fabs((cc.y + geometry_params.dy/2.0) - vc.y) < eps)
+                else if (std::fabs((cc.y + dy/2.0) - vc.y) < eps)
                 {
                     cell_centers[ii].neighbors[2] = jj;
                     vertices[jj].neighbors[3] = ii;
@@ -147,7 +147,7 @@ UniqueEdgeStatus Geometry::findUniqueFaceNeighbors(int current_cell_index, int e
 void Geometry::generateEdgeList()
 {
     // Loop over all cells
-    for (int ii = 0; ii < geometry_params.np; ++ii)
+    for (int ii = 0; ii < num_points; ++ii)
     {
         for (int jj = 0; jj < 4; ++jj)
         {
@@ -175,7 +175,7 @@ void Geometry::writeEdgeList()
     std::ofstream edge_list_output;
     edge_list_output.open("edge_list.dat");
 
-    for (size_t ii = 0; ii < num_edges; ++ii)
+    for (int ii = 0; ii < num_edges; ++ii)
     {
         edge_list_output << "Edge #: " << ii << "; Vertices: (" << edge_list[ii].start_vertex << ", " << edge_list[ii].end_vertex << ")" << std::endl;
     }
@@ -185,7 +185,7 @@ void Geometry::writeEdgeList()
 void Geometry::determineCellEdgeAssociation()
 {
     // Loop over all cells
-    for (int cell_id = 0; cell_id < geometry_params.np; ++cell_id)
+    for (int cell_id = 0; cell_id < num_points; ++cell_id)
     {
         // Loop over each face
         for (int face_dir = 0; face_dir < 4; ++face_dir)
@@ -214,7 +214,7 @@ void Geometry::determineCellEdgeAssociation()
     size_t num_edges = edge_list.size();
     for (int edge_id = 0; edge_id < num_edges; ++edge_id)
     {
-        for (int cell_id = 0; cell_id < geometry_params.np; ++cell_id)
+        for (int cell_id = 0; cell_id < num_points; ++cell_id)
         {
             for (int face_dir = 0; face_dir < 4; ++face_dir)
             {
