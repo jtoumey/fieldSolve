@@ -1,8 +1,9 @@
 #include <iostream>
 #include <vector>
 
-#include "framework/field.hpp"
+// #include "framework/field.hpp"
 #include "geometry/geometry.hpp"
+#include "grid/grid.hpp"
 
 int main(int argc, char* arg[])
 {
@@ -17,7 +18,8 @@ int main(int argc, char* arg[])
     GeometryParameters box_geometry_parameters(xmax, ymax, npx, npy);
     Geometry box_geometry(box_geometry_parameters);
 
-    
+    Grid box_grid(2, npx, npy, 0.0, xmax, 0.0, ymax);
+
 
     double t0, t1, t_i, dt;
     t0 = 0.0;

@@ -9,7 +9,7 @@ private:
     std::vector<double> x_coord;
     std::vector<double> y_coord;
 public:
-    Vertices();
+    // Vertices();
     void addVertex(double xc_, double yc_)
     {
         x_coord.push_back(xc_);
