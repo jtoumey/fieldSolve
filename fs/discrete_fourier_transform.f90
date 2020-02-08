@@ -1,4 +1,4 @@
-function discrete_fourier_transform()
+function discrete_fourier_transform() return(0)
 
 
 end function discrete_fourier_transform
