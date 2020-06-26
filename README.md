@@ -1,4 +1,4 @@
-# fieldSolveLib
+# fieldSolve
 
 Based on my work with `OpenFOAM`, this library exists for solving model problems in my coursework.
 

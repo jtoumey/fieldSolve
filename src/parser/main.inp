@@ -1,0 +1,12 @@
+# Main input file
+
+dimension   2;
+
+x1Min    0.0;
+x1Max    1.0;
+x2Min    0.0;
+x2Max    2.0;
+
+x1Cells      2;
+x2Cells      4;
+
